@@ -8,16 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenStreamDeck.Handler;
+using OpenStreamDeck.ConfigManagement;
 
 
 namespace OpenStreamDeck
 {
+    //TODO: Tons of UI work. Managing keys being the highest importance. Accounts and additional settings to come later
     public partial class MainPage : Form
     {
         DeckHandler deckHandler;
         NotifyIcon systrayIcon;
         List<PictureBox> keyPictureBoxes;
         int selectedIndex = -1;
+        bool changes = false;
 
         public MainPage(DeckHandler dh)
         {
@@ -61,10 +64,16 @@ namespace OpenStreamDeck
             keyPictureBoxes.Add(keyThirteenPicBox);
             keyPictureBoxes.Add(keyFourteenPicBox);
 
+            //Populate fields
+            profileTextBox.Text = dh.CurrentProfile.ProfileName;
+
             //Set picturebox settings
+            var i = 0;
             foreach (var pictureBox in keyPictureBoxes)
             {
+                pictureBox.Image = dh.CurrentProfile.Pages[dh.CurrentPage].Keys[i].getImageForForm();
                 pictureBox.Click += pictureBoxClicked;
+                i++;
             }
         }
         
@@ -103,6 +112,31 @@ namespace OpenStreamDeck
         private void exitButton_Clicked(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void profileTextBox_TextChanged(object sender, EventArgs e)
+        {
+            deckHandler.CurrentProfile.ProfileName = profileTextBox.Text;
+            deckHandler.CurrentProfile.nameChanged = true;
+            changes = true;
+        }
+
+        private void profileTextBox_Leave(object sender, EventArgs e)
+        {
+            if (changes)
+            {
+                ProfileManager.saveProfile(deckHandler.CurrentProfile);
+                changes = false;
+            }
+        }
+
+        private void profileTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            var tb = sender as TextBox;
+            if (e.KeyChar.Equals(Keys.Enter))
+            {
+                SendKeys.Send("{TAB}");
+            }
         }
     }
 }

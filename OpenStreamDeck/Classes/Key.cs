@@ -67,6 +67,34 @@ namespace OpenStreamDeck.ProfileObjects
             SoundFilePath = null;
         }
 
+        public Image getImageForForm()
+        {
+            if (ImageType == ImageSaveType.Image_File)
+            {
+                if (File.Exists(ImageLocation))
+                {
+                    return Bitmap.FromFile(ImageLocation);
+                }
+                else
+                {
+                    return Bitmap.FromFile(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/default.png");
+                }
+            }
+            else if (ImageType == ImageSaveType.Image_Color)
+            {
+                Bitmap b = new Bitmap(72, 72);
+                using (Graphics g = Graphics.FromImage(b))
+                {
+                    g.Clear(ImageColor);
+                }
+                return b;
+            }
+            else
+            {
+                return Bitmap.FromFile(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/default.png");
+            }
+        }
+
         public StreamDeckKeyBitmap getImage()
         {
             if (ImageType == ImageSaveType.Image_File)
@@ -77,7 +105,7 @@ namespace OpenStreamDeck.ProfileObjects
                 }
                 else
                 {
-                    return StreamDeckKeyBitmap.FromFile("C:/Users/Tyler Desktop/Documents/Visual Studio 2015/Projects/OpenStreamDeck/OpenStreamDeck/Images/default.png");
+                    return StreamDeckKeyBitmap.FromFile(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/default.png");
                 }
             }
             else if (ImageType == ImageSaveType.Image_Color)
@@ -86,7 +114,7 @@ namespace OpenStreamDeck.ProfileObjects
             }
             else
             {
-                return StreamDeckKeyBitmap.FromFile("C:/Users/Tyler Desktop/Documents/Visual Studio 2015/Projects/OpenStreamDeck/OpenStreamDeck/Images/default.png");
+                return StreamDeckKeyBitmap.FromFile(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/default.png");
             }
         }
 

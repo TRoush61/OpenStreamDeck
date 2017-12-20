@@ -102,6 +102,7 @@ namespace OpenStreamDeck.Functions
                         OpenProgram(key.PathToExe);
                         break;
                     }
+                    //TODO: Work on sound board implementation
                 case KeyFunctionsEnum.PlaySoundBite:
                     {
                         /*if (String.IsNullOrEmpty(key.PathToExe))

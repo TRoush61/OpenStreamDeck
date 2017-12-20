@@ -16,6 +16,7 @@ namespace OpenStreamDeck
         static void Main()
         {
             DeckHandler deckHandler = new DeckHandler();
+            //TODO: Manage streamdeck not being connected and manage searching for the connection periodically when one isn't detected
             if (deckHandler.Deck == null)
             {
 

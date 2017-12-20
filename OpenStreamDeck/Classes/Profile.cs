@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenStreamDeck.ProfileObjects;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace OpenStreamDeck.ProfileObjects
 {
@@ -17,6 +18,7 @@ namespace OpenStreamDeck.ProfileObjects
         public List<Page> Pages { get; set; }
         [JsonProperty("Path")]
         public string ProfilePath;
+        public bool nameChanged = false;
 
         [JsonConstructor]
         public Profile(string profileName)
@@ -25,6 +27,16 @@ namespace OpenStreamDeck.ProfileObjects
             pages.Add(new Page("MainPage"));
             Pages = pages;
             ProfileName = profileName;
+            ProfilePath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/profiles/" + ProfileName + ".json";
+        }
+
+        public void updateProfilePath()
+        {
+            //removes old profile if one existed
+            if (File.Exists(ProfilePath))
+            {
+                File.Delete(ProfilePath);
+            }
             ProfilePath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/profiles/" + ProfileName + ".json";
         }
     }

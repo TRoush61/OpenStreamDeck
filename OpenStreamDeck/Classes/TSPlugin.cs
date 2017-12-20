@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 namespace OpenStreamDeck.Plugins
 {
+    //TODO: Dive deeper into TS integration and hopefully get some working commands.
     class TSPlugin
     {
         public static void StartClient()
