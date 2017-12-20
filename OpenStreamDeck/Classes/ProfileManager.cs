@@ -16,7 +16,7 @@ namespace OpenStreamDeck.ConfigManagement
         {
             if (String.IsNullOrEmpty(fileLocation) || !File.Exists(fileLocation))
             {
-                return null;
+                throw new FileNotFoundException();
             }
 
             JsonSerializer serializer = new JsonSerializer();
@@ -54,8 +54,10 @@ namespace OpenStreamDeck.ConfigManagement
                 var dialogResult = MessageBox.Show("A profile with this name already exists! Would you like to overwrite it?", "Overwrite Profile", MessageBoxButtons.YesNo);
                 if (dialogResult.Equals(DialogResult.No))
                 {
+                    profile.nameChanged = false;
                     return false;
                 }
+                profile.nameChanged = false;
             }
 
             JsonSerializer serializer = new JsonSerializer();

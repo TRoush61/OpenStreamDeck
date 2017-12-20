@@ -18,7 +18,8 @@ namespace OpenStreamDeck.ProfileObjects
         public List<Page> Pages { get; set; }
         [JsonProperty("Path")]
         public string ProfilePath;
-        public bool nameChanged = false;
+        [JsonIgnore]
+        public bool nameChanged;
 
         [JsonConstructor]
         public Profile(string profileName)
@@ -28,6 +29,7 @@ namespace OpenStreamDeck.ProfileObjects
             Pages = pages;
             ProfileName = profileName;
             ProfilePath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/profiles/" + ProfileName + ".json";
+            nameChanged = false;
         }
 
         public void updateProfilePath()

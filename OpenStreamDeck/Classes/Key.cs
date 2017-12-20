@@ -77,7 +77,7 @@ namespace OpenStreamDeck.ProfileObjects
                 }
                 else
                 {
-                    return Bitmap.FromFile(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/default.png");
+                    return OpenStreamDeck.Properties.Resources._default;
                 }
             }
             else if (ImageType == ImageSaveType.Image_Color)
@@ -91,7 +91,7 @@ namespace OpenStreamDeck.ProfileObjects
             }
             else
             {
-                return Bitmap.FromFile(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/default.png");
+                return OpenStreamDeck.Properties.Resources._default;
             }
         }
 
@@ -105,7 +105,7 @@ namespace OpenStreamDeck.ProfileObjects
                 }
                 else
                 {
-                    return StreamDeckKeyBitmap.FromFile(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/default.png");
+                    return StreamDeckKeyBitmap.FromRawBitmap(ImageToByte(OpenStreamDeck.Properties.Resources._default));
                 }
             }
             else if (ImageType == ImageSaveType.Image_Color)
@@ -114,7 +114,7 @@ namespace OpenStreamDeck.ProfileObjects
             }
             else
             {
-                return StreamDeckKeyBitmap.FromFile(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/default.png");
+                return StreamDeckKeyBitmap.FromRawBitmap(ImageToByte(OpenStreamDeck.Properties.Resources._default));
             }
         }
 
@@ -128,6 +128,12 @@ namespace OpenStreamDeck.ProfileObjects
         {
             ImageLocation = imageLocation;
             ImageType = ImageSaveType.Image_File;
+        }
+
+        public static byte[] ImageToByte(Image img)
+        {
+            ImageConverter converter = new ImageConverter();
+            return (byte[])converter.ConvertTo(img, typeof(byte[]));
         }
     }
 }

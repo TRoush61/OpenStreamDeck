@@ -94,12 +94,15 @@ namespace OpenStreamDeck.Handler
 
         public void renderPage()
         {
-            var i = 0;
-            CurrentProfile.Pages[CurrentPage].Keys.TrimExcess();
-            foreach (var key in CurrentProfile.Pages[CurrentPage].Keys)
+            if (Deck != null)
             {
-                Deck.SetKeyBitmap(i, key.getImage());
-                ++i;
+                var i = 0;
+                CurrentProfile.Pages[CurrentPage].Keys.TrimExcess();
+                foreach (var key in CurrentProfile.Pages[CurrentPage].Keys)
+                {
+                    Deck.SetKeyBitmap(i, key.getImage());
+                    ++i;
+                }
             }
         }
 
@@ -151,8 +154,11 @@ namespace OpenStreamDeck.Handler
 
         private void onApplicationExit(object sender, EventArgs e)
         {
-            Deck.ClearKeys();
-            Deck.SetBrightness(0);
+            if (Deck != null)
+            {
+                Deck.ClearKeys();
+                Deck.SetBrightness(0);
+            }
         }
     }
 }

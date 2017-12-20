@@ -98,6 +98,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -115,15 +116,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="image.ico" />
-    <Content Include="Images\back.png" />
-    <Content Include="Images\default.png" />
-    <Content Include="Images\folder.png" />
-    <Content Include="Images\taskmanager.png" />
-    <Content Include="Images\twitch.png" />
-    <Content Include="Images\reddit.png" />
-    <Content Include="Images\facebook.png" />
-    <Content Include="Images\chrome.png" />
-    <Content Include="Images\youtube.png" />
+    <Content Include="Resources\appicon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\youtube.png" />
+    <None Include="Resources\twitch.png" />
+    <None Include="Resources\taskmanager.png" />
+    <None Include="Resources\reddit.png" />
+    <None Include="Resources\folder.png" />
+    <None Include="Resources\facebook.png" />
+    <None Include="Resources\chrome.png" />
+    <None Include="Resources\back.png" />
+    <None Include="Resources\default.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
