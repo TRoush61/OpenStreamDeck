@@ -78,6 +78,7 @@
     <Compile Include="Classes\Functions\GoHome.cs" />
     <Compile Include="Classes\Functions\KeyFunction.cs" />
     <Compile Include="Classes\Functions\NoFunction.cs" />
+    <Compile Include="Classes\GifHandler.cs" />
     <Compile Include="Classes\Key.cs" />
     <Compile Include="Classes\Page.cs" />
     <Compile Include="Classes\Profile.cs" />
