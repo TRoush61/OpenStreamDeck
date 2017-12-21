@@ -73,8 +73,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\DeckHandler.cs" />
+    <Compile Include="Classes\Functions\FolderNavigate.cs" />
+    <Compile Include="Classes\Functions\GoBack.cs" />
+    <Compile Include="Classes\Functions\GoHome.cs" />
+    <Compile Include="Classes\Functions\KeyFunction.cs" />
+    <Compile Include="Classes\Functions\NoFunction.cs" />
     <Compile Include="Classes\Key.cs" />
-    <Compile Include="Classes\KeyFunctions.cs" />
     <Compile Include="Classes\Page.cs" />
     <Compile Include="Classes\Profile.cs" />
     <Compile Include="Classes\ProfileManager.cs" />
@@ -126,8 +130,12 @@
     <None Include="Resources\folder.png" />
     <None Include="Resources\facebook.png" />
     <None Include="Resources\chrome.png" />
-    <None Include="Resources\back.png" />
-    <None Include="Resources\default.png" />
+    <None Include="Resources\back.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\default.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -141,6 +149,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

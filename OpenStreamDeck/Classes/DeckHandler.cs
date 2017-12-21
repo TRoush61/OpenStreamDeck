@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using OpenStreamDeck.ProfileObjects;
 using OpenStreamDeck.ConfigManagement;
 using OpenStreamDeck.Functions;
+using System.IO;
 
 namespace OpenStreamDeck.Handler
 {
@@ -28,12 +29,18 @@ namespace OpenStreamDeck.Handler
         {
             //Load the default profile
             var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/profiles/default.json";
-            CurrentProfile = ProfileManager.loadProfile(path);
-            if (CurrentProfile == null)
+            try
             {
-                CurrentProfile = new Profile("Default");
-                buildTestProfile();
-                ProfileManager.saveProfile(CurrentProfile);
+                CurrentProfile = ProfileManager.loadProfile(path);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(String.Format("An error occurred while loading your default profile. Generating a new default profile. ({0})", e.Message));
+                if (CurrentProfile == null)
+                {
+                    CurrentProfile = new Profile("Default");
+                    ProfileManager.saveProfile(CurrentProfile);
+                }
             }
 
             try
@@ -76,7 +83,7 @@ namespace OpenStreamDeck.Handler
                 KeyPressedTimer.Stop();
                 if (!(KeyHeldFor >= KeyHeldInterval))
                 {
-                    KeyFunctions.KeyPressedHandler(this, keyPressed);
+                    keyPressed.KeyPressedFunction.Run(this);
                 }
             }
         }
@@ -88,7 +95,7 @@ namespace OpenStreamDeck.Handler
             {
                 KeyPressedTimer.Stop();
                 var keyPressed = CurrentProfile.Pages[CurrentPage].Keys[LastKeyPressed.Key];
-                KeyFunctions.KeyHeldHandler(this, keyPressed);
+                keyPressed.KeyHeldFunction.Run(this);
             }
         }
 
@@ -104,52 +111,6 @@ namespace OpenStreamDeck.Handler
                     ++i;
                 }
             }
-        }
-
-        //TODO: Stop needing to do this to get a working profile
-        private void buildTestProfile()
-        {
-            CurrentProfile.Pages[0].PageName = "Test";
-            CurrentProfile.Pages[0].Keys[14].setImage(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/chrome.png");
-            CurrentProfile.Pages[0].Keys[14].KeyPressedFunction = KeyFunctions.KeyFunctionsEnum.OpenWebBrowser;
-            CurrentProfile.Pages[0].Keys[14].WebUrl = "http://";
-            CurrentProfile.Pages[0].Keys[14].KeyHeldFunction = KeyFunctions.KeyFunctionsEnum.ChangePage;
-            CurrentProfile.Pages[0].Keys[14].PageReference = 1;
-            CurrentProfile.Pages[0].Keys[0].setImage(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/taskmanager.png");
-            CurrentProfile.Pages[0].Keys[0].KeyPressedFunction = KeyFunctions.KeyFunctionsEnum.OpenProgram;
-            CurrentProfile.Pages[0].Keys[0].PathToExe = System.Environment.GetFolderPath(System.Environment.SpecialFolder.SystemX86) + "/taskmgr.exe";
-            CurrentProfile.Pages[0].Keys[4].setImage(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/taskmanager.png");
-            CurrentProfile.Pages[0].Keys[4].KeyPressedFunction = KeyFunctions.KeyFunctionsEnum.PlaySoundBite;
-
-            CurrentProfile.Pages.Add(new Page("Page 2"));
-            CurrentProfile.Pages[1].Keys[4].setImage(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/back.png");
-            CurrentProfile.Pages[1].Keys[4].KeyPressedFunction = KeyFunctions.KeyFunctionsEnum.ChangePage;
-            CurrentProfile.Pages[1].Keys[4].PageReference = 0;
-            CurrentProfile.Pages[1].Keys[4].KeyHeldFunction = KeyFunctions.KeyFunctionsEnum.GoHome;
-            CurrentProfile.Pages[1].Keys[14].setImage(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/chrome.png");
-            CurrentProfile.Pages[1].Keys[14].KeyPressedFunction = KeyFunctions.KeyFunctionsEnum.OpenWebBrowser;
-            CurrentProfile.Pages[1].Keys[14].WebUrl = "http://";
-            CurrentProfile.Pages[1].Keys[13].setImage(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/reddit.png");
-            CurrentProfile.Pages[1].Keys[13].KeyPressedFunction = KeyFunctions.KeyFunctionsEnum.OpenWebBrowser;
-            CurrentProfile.Pages[1].Keys[13].WebUrl = "https://reddit.com";
-            CurrentProfile.Pages[1].Keys[12].setImage(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/facebook.png");
-            CurrentProfile.Pages[1].Keys[12].KeyPressedFunction = KeyFunctions.KeyFunctionsEnum.OpenWebBrowser;
-            CurrentProfile.Pages[1].Keys[12].WebUrl = "https://facebook.com";
-            CurrentProfile.Pages[1].Keys[11].setImage(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/youtube.png");
-            CurrentProfile.Pages[1].Keys[11].KeyPressedFunction = KeyFunctions.KeyFunctionsEnum.OpenWebBrowser;
-            CurrentProfile.Pages[1].Keys[11].WebUrl = "https://youtube.com";
-            CurrentProfile.Pages[1].Keys[10].setImage(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/twitch.png");
-            CurrentProfile.Pages[1].Keys[10].KeyPressedFunction = KeyFunctions.KeyFunctionsEnum.OpenWebBrowser;
-            CurrentProfile.Pages[1].Keys[10].WebUrl = "https://twitch.tv";
-            CurrentProfile.Pages[1].Keys[0].setImage(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/folder.png");
-            CurrentProfile.Pages[1].Keys[0].KeyPressedFunction = KeyFunctions.KeyFunctionsEnum.ChangePage;
-            CurrentProfile.Pages[1].Keys[0].PageReference = 2;
-
-            CurrentProfile.Pages.Add(new Page("Page 3"));
-            CurrentProfile.Pages[2].Keys[4].setImage(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/back.png");
-            CurrentProfile.Pages[2].Keys[4].KeyPressedFunction = KeyFunctions.KeyFunctionsEnum.ChangePage;
-            CurrentProfile.Pages[2].Keys[4].PageReference = 1;
-            CurrentProfile.Pages[2].Keys[4].KeyHeldFunction = KeyFunctions.KeyFunctionsEnum.GoHome;
         }
 
         private void onApplicationExit(object sender, EventArgs e)

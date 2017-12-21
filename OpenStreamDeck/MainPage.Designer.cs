@@ -38,8 +38,6 @@
             this.accountsButton = new System.Windows.Forms.Button();
             this.settingsButton = new System.Windows.Forms.Button();
             this.profileTextBox = new System.Windows.Forms.TextBox();
-            this.keyPressedLabel = new System.Windows.Forms.Label();
-            this.keyHeldLabel = new System.Windows.Forms.Label();
             this.HeldLabel = new System.Windows.Forms.Label();
             this.keyPressedButton = new System.Windows.Forms.Button();
             this.keyHeldButton = new System.Windows.Forms.Button();
@@ -62,6 +60,10 @@
             this.keyThreePicBox = new System.Windows.Forms.PictureBox();
             this.keyFourPicBox = new System.Windows.Forms.PictureBox();
             this.loadButton = new System.Windows.Forms.Button();
+            this.changeFolderButton1 = new System.Windows.Forms.Button();
+            this.changeFolderButton2 = new System.Windows.Forms.Button();
+            this.keyPressedComboBox = new System.Windows.Forms.ComboBox();
+            this.keyHeldComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.iconPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.keyTenPicBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.keyElevenPicBox)).BeginInit();
@@ -173,28 +175,6 @@
             this.profileTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.profileTextBox_KeyPress);
             this.profileTextBox.Leave += new System.EventHandler(this.profileTextBox_Leave);
             // 
-            // keyPressedLabel
-            // 
-            this.keyPressedLabel.AutoSize = true;
-            this.keyPressedLabel.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.keyPressedLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.keyPressedLabel.Location = new System.Drawing.Point(572, 166);
-            this.keyPressedLabel.Name = "keyPressedLabel";
-            this.keyPressedLabel.Size = new System.Drawing.Size(102, 22);
-            this.keyPressedLabel.TabIndex = 28;
-            this.keyPressedLabel.Text = "pressedLabel";
-            // 
-            // keyHeldLabel
-            // 
-            this.keyHeldLabel.AutoSize = true;
-            this.keyHeldLabel.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.keyHeldLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.keyHeldLabel.Location = new System.Drawing.Point(572, 230);
-            this.keyHeldLabel.Name = "keyHeldLabel";
-            this.keyHeldLabel.Size = new System.Drawing.Size(79, 22);
-            this.keyHeldLabel.TabIndex = 30;
-            this.keyHeldLabel.Text = "heldLabel";
-            // 
             // HeldLabel
             // 
             this.HeldLabel.AutoSize = true;
@@ -208,21 +188,23 @@
             // 
             // keyPressedButton
             // 
-            this.keyPressedButton.Location = new System.Drawing.Point(647, 200);
+            this.keyPressedButton.Location = new System.Drawing.Point(604, 200);
             this.keyPressedButton.Name = "keyPressedButton";
-            this.keyPressedButton.Size = new System.Drawing.Size(75, 23);
+            this.keyPressedButton.Size = new System.Drawing.Size(118, 23);
             this.keyPressedButton.TabIndex = 31;
-            this.keyPressedButton.Text = "Change";
+            this.keyPressedButton.Text = "Edit Function Settings";
             this.keyPressedButton.UseVisualStyleBackColor = true;
+            this.keyPressedButton.Click += new System.EventHandler(this.keyPressedButton_Click);
             // 
             // keyHeldButton
             // 
-            this.keyHeldButton.Location = new System.Drawing.Point(647, 264);
+            this.keyHeldButton.Location = new System.Drawing.Point(604, 264);
             this.keyHeldButton.Name = "keyHeldButton";
-            this.keyHeldButton.Size = new System.Drawing.Size(75, 23);
+            this.keyHeldButton.Size = new System.Drawing.Size(118, 23);
             this.keyHeldButton.TabIndex = 32;
-            this.keyHeldButton.Text = "Change";
+            this.keyHeldButton.Text = "Edit Function Settings";
             this.keyHeldButton.UseVisualStyleBackColor = true;
+            this.keyHeldButton.Click += new System.EventHandler(this.keyHeldButton_Click);
             // 
             // iconChangeButton
             // 
@@ -399,21 +381,59 @@
             this.loadButton.UseVisualStyleBackColor = true;
             this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 
+            // changeFolderButton1
+            // 
+            this.changeFolderButton1.Location = new System.Drawing.Point(461, 200);
+            this.changeFolderButton1.Name = "changeFolderButton1";
+            this.changeFolderButton1.Size = new System.Drawing.Size(137, 23);
+            this.changeFolderButton1.TabIndex = 38;
+            this.changeFolderButton1.Text = "Navigate To Linked Page";
+            this.changeFolderButton1.UseVisualStyleBackColor = true;
+            // 
+            // changeFolderButton2
+            // 
+            this.changeFolderButton2.Location = new System.Drawing.Point(461, 264);
+            this.changeFolderButton2.Name = "changeFolderButton2";
+            this.changeFolderButton2.Size = new System.Drawing.Size(137, 23);
+            this.changeFolderButton2.TabIndex = 39;
+            this.changeFolderButton2.Text = "Navigate To Linked Page";
+            this.changeFolderButton2.UseVisualStyleBackColor = true;
+            // 
+            // keyPressedComboBox
+            // 
+            this.keyPressedComboBox.FormattingEnabled = true;
+            this.keyPressedComboBox.Location = new System.Drawing.Point(572, 166);
+            this.keyPressedComboBox.Name = "keyPressedComboBox";
+            this.keyPressedComboBox.Size = new System.Drawing.Size(150, 21);
+            this.keyPressedComboBox.TabIndex = 40;
+            this.keyPressedComboBox.SelectedIndexChanged += new System.EventHandler(this.keyPressedComboBox_SelectedIndexChanged);
+            // 
+            // keyHeldComboBox
+            // 
+            this.keyHeldComboBox.FormattingEnabled = true;
+            this.keyHeldComboBox.Location = new System.Drawing.Point(572, 230);
+            this.keyHeldComboBox.Name = "keyHeldComboBox";
+            this.keyHeldComboBox.Size = new System.Drawing.Size(150, 21);
+            this.keyHeldComboBox.TabIndex = 41;
+            this.keyHeldComboBox.SelectedIndexChanged += new System.EventHandler(this.keyHeldComboBox_SelectedIndexChanged);
+            // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(734, 299);
+            this.Controls.Add(this.keyHeldComboBox);
+            this.Controls.Add(this.keyPressedComboBox);
+            this.Controls.Add(this.changeFolderButton2);
+            this.Controls.Add(this.changeFolderButton1);
             this.Controls.Add(this.loadButton);
             this.Controls.Add(this.iconPreview);
             this.Controls.Add(this.IconLabel);
             this.Controls.Add(this.iconChangeButton);
             this.Controls.Add(this.keyHeldButton);
             this.Controls.Add(this.keyPressedButton);
-            this.Controls.Add(this.keyHeldLabel);
             this.Controls.Add(this.HeldLabel);
-            this.Controls.Add(this.keyPressedLabel);
             this.Controls.Add(this.profileTextBox);
             this.Controls.Add(this.settingsButton);
             this.Controls.Add(this.accountsButton);
@@ -438,6 +458,7 @@
             this.Controls.Add(this.keyTwoPicBox);
             this.Controls.Add(this.keyThreePicBox);
             this.Controls.Add(this.keyFourPicBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainPage";
             this.Text = "OpenStreamDeck";
@@ -489,8 +510,6 @@
         private System.Windows.Forms.Button accountsButton;
         private System.Windows.Forms.Button settingsButton;
         private System.Windows.Forms.TextBox profileTextBox;
-        private System.Windows.Forms.Label keyPressedLabel;
-        private System.Windows.Forms.Label keyHeldLabel;
         private System.Windows.Forms.Label HeldLabel;
         private System.Windows.Forms.Button keyPressedButton;
         private System.Windows.Forms.Button keyHeldButton;
@@ -498,6 +517,10 @@
         private System.Windows.Forms.Label IconLabel;
         private System.Windows.Forms.PictureBox iconPreview;
         private System.Windows.Forms.Button loadButton;
+        private System.Windows.Forms.Button changeFolderButton1;
+        private System.Windows.Forms.Button changeFolderButton2;
+        private System.Windows.Forms.ComboBox keyPressedComboBox;
+        private System.Windows.Forms.ComboBox keyHeldComboBox;
     }
 }
 

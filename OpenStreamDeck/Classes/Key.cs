@@ -11,7 +11,6 @@ using OpenStreamDeck.Functions;
 
 namespace OpenStreamDeck.ProfileObjects
 {
-    public delegate void KeyFunction(object sender);
     public enum LabelPosition
     {
         Positon_Not_Rendered,
@@ -40,17 +39,9 @@ namespace OpenStreamDeck.ProfileObjects
         [JsonProperty("ImageColor")]
         private Color ImageColor { get; set; }
         [JsonProperty("KeyPressedFunction")]
-        public KeyFunctions.KeyFunctionsEnum KeyPressedFunction { get; set; }
+        public KeyFunction KeyPressedFunction { get; set; }
         [JsonProperty("KeyHeldFunction")]
-        public KeyFunctions.KeyFunctionsEnum KeyHeldFunction { get; set; }
-        [JsonProperty("PageReference")]
-        public int PageReference { get; set; }
-        [JsonProperty("WebUrl")]
-        public string WebUrl { get; set; }
-        [JsonProperty("PathToExe")]
-        public string PathToExe { get; set; }
-        [JsonProperty("SoundFilePath")]
-        public string SoundFilePath { get; set; }
+        public KeyFunction KeyHeldFunction { get; set; }
 
         [JsonConstructor]
         public Key()
@@ -59,12 +50,8 @@ namespace OpenStreamDeck.ProfileObjects
             LabelPos = LabelPosition.Positon_Not_Rendered;
             ImageColor = Color.Black;
             ImageType = ImageSaveType.Image_Color;
-            KeyPressedFunction = 0;
-            KeyHeldFunction = 0;
-            PageReference = -1;
-            WebUrl = null;
-            PathToExe = null;
-            SoundFilePath = null;
+            KeyPressedFunction = new NoFunction();
+            KeyHeldFunction = new NoFunction();
         }
 
         public Image getImageForForm()
@@ -105,7 +92,7 @@ namespace OpenStreamDeck.ProfileObjects
                 }
                 else
                 {
-                    return StreamDeckKeyBitmap.FromRawBitmap(ImageToByte(OpenStreamDeck.Properties.Resources._default));
+                    return StreamDeckKeyBitmap.FromFile("Resources\\default.png");
                 }
             }
             else if (ImageType == ImageSaveType.Image_Color)

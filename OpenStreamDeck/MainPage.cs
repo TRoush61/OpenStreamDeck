@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenStreamDeck.Handler;
 using OpenStreamDeck.ConfigManagement;
+using OpenStreamDeck.Functions;
 using System.IO;
 using System.Resources;
+using System.Reflection;
 
 namespace OpenStreamDeck
 {
@@ -22,12 +24,30 @@ namespace OpenStreamDeck
         List<PictureBox> keyPictureBoxes;
         int selectedIndex = -1;
         bool changes = false;
+        List<Type> functionTypes;
+        List<string> functionNames;
+        int currentPage = 0;
+        Timer UIRefreshCheck;
+
 
         public MainPage(DeckHandler dh)
         {
             InitializeComponent();
 
             deckHandler = dh;
+
+            functionTypes = Assembly
+                .GetAssembly(typeof(KeyFunction))
+                .GetTypes()
+                .Where(t => t.IsSubclassOf(typeof(KeyFunction))).ToList<Type>();
+            
+
+            functionNames = new List<string>();
+            foreach (var functionType in functionTypes)
+            {
+                var function = (KeyFunction)Activator.CreateInstance(functionType, deckHandler);
+                functionNames.Add(function.getFunctionName());
+            }
 
             //Generate tray icon
             systrayIcon = new NotifyIcon();
@@ -43,7 +63,6 @@ namespace OpenStreamDeck
             menuItem.Click += exitButton_Clicked;
             menu.MenuItems.Add(menuItem);
             systrayIcon.ContextMenu = menu;
-            ResourceManager rm = new ResourceManager("Images", typeof(MainPage).Assembly);
             systrayIcon.Icon = new Icon ("Resources/appicon.ico");
             systrayIcon.Visible = true;
 
@@ -65,19 +84,38 @@ namespace OpenStreamDeck
             keyPictureBoxes.Add(keyThirteenPicBox);
             keyPictureBoxes.Add(keyFourteenPicBox);
 
-            
+            populateFields();
+
+            //Initialize timer to check when UI needs refreshed for page changes
+            UIRefreshCheck = new Timer();
+            UIRefreshCheck.Tick += checkUpdate;
+            UIRefreshCheck.Interval = 10;
+            UIRefreshCheck.Start();
+        }
+
+        private void checkUpdate(object sender, EventArgs e)
+        {
+            if (currentPage != deckHandler.CurrentPage)
+            {
+                currentPage = deckHandler.CurrentPage;
+                populateFields();
+            }
         }
 
         private void populateFields()
         {
             //Populate fields
             profileTextBox.Text = deckHandler.CurrentProfile.ProfileName;
-            keyPressedLabel.Text = "";
-            keyHeldLabel.Text = "";
+            keyPressedComboBox.DataSource = functionNames;
+            keyHeldComboBox.DataSource = new List<string>(functionNames);
             titlePosComboBox.Items.Add("Not Rendered");
             titlePosComboBox.Items.Add("Rendered Top");
             titlePosComboBox.Items.Add("Rendered Center");
             titlePosComboBox.Items.Add("Rendered Bottom");
+
+            //Hide navigation buttons until needed
+            changeFolderButton1.Visible = false;
+            changeFolderButton2.Visible = false;
 
             //Set picturebox settings
             var i = 0;
@@ -99,16 +137,19 @@ namespace OpenStreamDeck
                 keyPictureBoxes[selectedIndex].BorderStyle = BorderStyle.None;
             }
             selectedIndex = keyPictureBoxes.IndexOf(pb);
+
             //Set the clicked one as the selected one
             pb.BorderStyle = BorderStyle.Fixed3D;
 
             //Populate fields
-            keyPressedLabel.Text = deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].KeyPressedFunction.ToString();
-            keyHeldLabel.Text = deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].KeyHeldFunction.ToString();
+            keyPressedComboBox.SelectedIndex = functionNames.IndexOf(deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].KeyPressedFunction.getFunctionName());
+            keyHeldComboBox.SelectedIndex = functionNames.IndexOf(deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].KeyHeldFunction.getFunctionName());
             titleTextBox.Text = deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].Label;
             titleTextBox.ReadOnly = false;
             titlePosComboBox.SelectedIndex = (int)deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].LabelPos;
             iconPreview.Image = deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].getImageForForm();
+
+
         }
 
         private void systrayIcon_DoubleClicked(object sender, EventArgs e)
@@ -158,7 +199,7 @@ namespace OpenStreamDeck
         {
             if (changes)
             {
-                string oldProfileName = deckHandler.CurrentProfile.ProfileName; ;
+                string oldProfileName = deckHandler.CurrentProfile.ProfileName;
                 if (deckHandler.CurrentProfile.ProfileName != profileTextBox.Text)
                 {
                     deckHandler.CurrentProfile.ProfileName = profileTextBox.Text;
@@ -275,6 +316,48 @@ namespace OpenStreamDeck
                 {
                     MessageBox.Show(String.Format("Error: Could not open file. ({0})", ex.Message));
                 }
+            }
+        }
+
+        private void keyPressedComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (selectedIndex != -1)
+            {
+                deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].KeyPressedFunction
+                    = (KeyFunction)Activator.CreateInstance(functionTypes[keyPressedComboBox.SelectedIndex], deckHandler);
+            }
+        }
+
+        private void keyHeldComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (selectedIndex != -1)
+            {
+                deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].KeyHeldFunction
+                = (KeyFunction)Activator.CreateInstance(functionTypes[keyHeldComboBox.SelectedIndex], deckHandler);
+            }
+        }
+
+        private void keyPressedButton_Click(object sender, EventArgs e)
+        {
+            if (selectedIndex != -1)
+            {
+                deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].KeyPressedFunction.ShowForm();
+            }
+            else
+            {
+                MessageBox.Show("Please select a key!");
+            }
+        }
+
+        private void keyHeldButton_Click(object sender, EventArgs e)
+        {
+            if (selectedIndex != -1)
+            {
+                deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].KeyHeldFunction.ShowForm();
+            }
+            else
+            {
+                MessageBox.Show("Please select a key!");
             }
         }
     }
