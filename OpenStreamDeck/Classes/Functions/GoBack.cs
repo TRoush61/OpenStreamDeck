@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using OpenStreamDeck.Functions;
 using OpenStreamDeck.Handler;
 
-namespace OpenStreamDeck.Classes.Functions
+namespace OpenStreamDeck.Functions
 {
     class GoBack : KeyFunction
     {
@@ -17,11 +17,12 @@ namespace OpenStreamDeck.Classes.Functions
         [JsonConstructor]
         public GoBack()
         {
-
+            base.isNavigationKey = true;
         }
 
         public GoBack(DeckHandler dh) : base(dh)
         {
+            base.isNavigationKey = true;
             PageReference = dh.CurrentPage;
         }
 

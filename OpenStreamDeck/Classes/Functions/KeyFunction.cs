@@ -12,6 +12,9 @@ namespace OpenStreamDeck.Functions
     //Base class for Key Functions. Build overrides for additional functions
     public class KeyFunction
     {
+        [JsonProperty("isNavigationKey")]
+        public bool isNavigationKey = false;
+
         [JsonConstructor]
         public KeyFunction()
         {

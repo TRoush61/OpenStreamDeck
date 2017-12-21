@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using OpenStreamDeck.Functions;
 using OpenStreamDeck.Handler;
 
-namespace OpenStreamDeck.Classes.Functions
+namespace OpenStreamDeck.Functions
 {
     class FolderNavigate : KeyFunction
     {
@@ -17,11 +17,12 @@ namespace OpenStreamDeck.Classes.Functions
         [JsonConstructor]
         public FolderNavigate()
         {
-
+            base.isNavigationKey = true;
         }
 
         public FolderNavigate(DeckHandler dh) : base(dh)
         {
+            base.isNavigationKey = true;
             dh.CurrentProfile.Pages.Add(new OpenStreamDeck.ProfileObjects.Page("New Page"));
             PageReference = dh.CurrentProfile.Pages.Count() - 1;
             dh.CurrentProfile.Pages[PageReference].Keys[4].setImage("Resources\\back.png");
