@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using OpenStreamDeck.Functions;
 using OpenStreamDeck.Handler;
 
@@ -12,6 +13,12 @@ namespace OpenStreamDeck.Classes.Functions
     class FolderNavigate : KeyFunction
     {
         public int PageReference;
+
+        [JsonConstructor]
+        public FolderNavigate()
+        {
+
+        }
 
         public FolderNavigate(DeckHandler dh) : base(dh)
         {

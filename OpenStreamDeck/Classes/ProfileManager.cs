@@ -20,6 +20,7 @@ namespace OpenStreamDeck.ConfigManagement
             }
 
             JsonSerializer serializer = new JsonSerializer();
+            serializer.TypeNameHandling = TypeNameHandling.All;
             Profile profile;
             using (StreamReader sr = new StreamReader(fileLocation))
             {
@@ -61,6 +62,7 @@ namespace OpenStreamDeck.ConfigManagement
             }
 
             JsonSerializer serializer = new JsonSerializer();
+            serializer.TypeNameHandling = TypeNameHandling.All;
             using (StreamWriter sw = new StreamWriter(fileLocation))
             {
                 using (JsonWriter writer = new JsonTextWriter(sw))

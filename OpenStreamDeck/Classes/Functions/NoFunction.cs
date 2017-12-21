@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using OpenStreamDeck.Functions;
 using OpenStreamDeck.Handler;
 
@@ -11,6 +12,12 @@ namespace OpenStreamDeck.Functions
 {
     class NoFunction : KeyFunction
     {
+        [JsonConstructor]
+        public NoFunction()
+        {
+
+        }
+
         public NoFunction(DeckHandler dh = null) : base(dh)
         {
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using OpenStreamDeck.Handler;
 
 namespace OpenStreamDeck.Functions
@@ -11,6 +12,12 @@ namespace OpenStreamDeck.Functions
     //Base class for Key Functions. Build overrides for additional functions
     public class KeyFunction
     {
+        [JsonConstructor]
+        public KeyFunction()
+        {
+
+        }
+
         public KeyFunction(DeckHandler dh)
         {
         }
