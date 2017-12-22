@@ -60,8 +60,6 @@
             this.keyThreePicBox = new System.Windows.Forms.PictureBox();
             this.keyFourPicBox = new System.Windows.Forms.PictureBox();
             this.loadButton = new System.Windows.Forms.Button();
-            this.changeFolderButton1 = new System.Windows.Forms.Button();
-            this.changeFolderButton2 = new System.Windows.Forms.Button();
             this.keyPressedComboBox = new System.Windows.Forms.ComboBox();
             this.keyHeldComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.iconPreview)).BeginInit();
@@ -381,24 +379,6 @@
             this.loadButton.UseVisualStyleBackColor = true;
             this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 
-            // changeFolderButton1
-            // 
-            this.changeFolderButton1.Location = new System.Drawing.Point(461, 200);
-            this.changeFolderButton1.Name = "changeFolderButton1";
-            this.changeFolderButton1.Size = new System.Drawing.Size(137, 23);
-            this.changeFolderButton1.TabIndex = 38;
-            this.changeFolderButton1.Text = "Navigate To Linked Page";
-            this.changeFolderButton1.UseVisualStyleBackColor = true;
-            // 
-            // changeFolderButton2
-            // 
-            this.changeFolderButton2.Location = new System.Drawing.Point(461, 264);
-            this.changeFolderButton2.Name = "changeFolderButton2";
-            this.changeFolderButton2.Size = new System.Drawing.Size(137, 23);
-            this.changeFolderButton2.TabIndex = 39;
-            this.changeFolderButton2.Text = "Navigate To Linked Page";
-            this.changeFolderButton2.UseVisualStyleBackColor = true;
-            // 
             // keyPressedComboBox
             // 
             this.keyPressedComboBox.FormattingEnabled = true;
@@ -425,8 +405,6 @@
             this.ClientSize = new System.Drawing.Size(734, 299);
             this.Controls.Add(this.keyHeldComboBox);
             this.Controls.Add(this.keyPressedComboBox);
-            this.Controls.Add(this.changeFolderButton2);
-            this.Controls.Add(this.changeFolderButton1);
             this.Controls.Add(this.loadButton);
             this.Controls.Add(this.iconPreview);
             this.Controls.Add(this.IconLabel);
@@ -517,8 +495,6 @@
         private System.Windows.Forms.Label IconLabel;
         private System.Windows.Forms.PictureBox iconPreview;
         private System.Windows.Forms.Button loadButton;
-        private System.Windows.Forms.Button changeFolderButton1;
-        private System.Windows.Forms.Button changeFolderButton2;
         private System.Windows.Forms.ComboBox keyPressedComboBox;
         private System.Windows.Forms.ComboBox keyHeldComboBox;
     }

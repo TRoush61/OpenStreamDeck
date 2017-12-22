@@ -8,19 +8,19 @@ using Newtonsoft.Json;
 using OpenStreamDeck.Functions;
 using OpenStreamDeck.Handler;
 
-namespace OpenStreamDeck.Classes.Functions
+namespace OpenStreamDeck.Functions
 {
     class GoHome : KeyFunction
     {
         [JsonConstructor]
         public GoHome()
         {
-
+            base.isNavigationKey = true;
         }
 
         public GoHome(DeckHandler dh) : base(dh)
         {
-
+            base.isNavigationKey = true;
         }
 
         public override string getFunctionName()

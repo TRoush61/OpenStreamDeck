@@ -113,16 +113,13 @@ namespace OpenStreamDeck
             titlePosComboBox.Items.Add("Rendered Center");
             titlePosComboBox.Items.Add("Rendered Bottom");
 
-            //Hide navigation buttons until needed
-            changeFolderButton1.Visible = false;
-            changeFolderButton2.Visible = false;
-
             //Set picturebox settings
             var i = 0;
             foreach (var pictureBox in keyPictureBoxes)
             {
                 pictureBox.Image = deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[i].getImageForForm();
                 pictureBox.Click += pictureBoxClicked;
+                pictureBox.DoubleClick += pictureBox_DoubleClick;
                 i++;
             }
         }
@@ -132,7 +129,13 @@ namespace OpenStreamDeck
             var pb = sender as PictureBox;
 
             //Remove border from old selected pb
-            if (selectedIndex != -1)
+            if (selectedIndex == keyPictureBoxes.IndexOf(pb))
+            {
+                //don't rerender everything if it's already rendered
+                //this also fixes the fact that rendering border styles breaks the double click event
+                return;
+            }
+            else if (selectedIndex != -1)
             {
                 keyPictureBoxes[selectedIndex].BorderStyle = BorderStyle.None;
             }
@@ -358,6 +361,21 @@ namespace OpenStreamDeck
             else
             {
                 MessageBox.Show("Please select a key!");
+            }
+        }
+
+        private void pictureBox_DoubleClick(object sender, EventArgs e)
+        {
+            var pictureBox = sender as PictureBox;
+            var index = keyPictureBoxes.IndexOf(pictureBox);
+            var correspondingKey = deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[index];
+            if (correspondingKey.KeyHeldFunction.isNavigationKey)
+            {
+                correspondingKey.KeyHeldFunction.Run(deckHandler);
+            }
+            else if(correspondingKey.KeyPressedFunction.isNavigationKey)
+            {
+                correspondingKey.KeyPressedFunction.Run(deckHandler);
             }
         }
     }
