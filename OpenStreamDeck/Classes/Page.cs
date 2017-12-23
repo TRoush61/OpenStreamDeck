@@ -38,5 +38,11 @@ namespace OpenStreamDeck.ProfileObjects
             Keys = new List<Key>();
             PageName = "NewPage";
         }
+
+        public Page(Page page)
+        {
+            Keys = page.Keys;
+            PageName = page.PageName;
+        }
     }
 }

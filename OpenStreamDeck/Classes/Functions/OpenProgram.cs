@@ -68,7 +68,7 @@ namespace OpenStreamDeck.Functions
         {
             OpenFileDialog fd = new OpenFileDialog();
             fd.Filter = "Program Links(*.EXE;*.LNK)|*.EXE;*.LNK|All files (*.*)|*.*";
-            fd.InitialDirectory = String.Format(System.Environment.GetFolderPath(Environment.SpecialFolder.StartMenu));
+            fd.InitialDirectory = String.Format("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs");
             fd.Multiselect = false;
             fd.ValidateNames = true;
             if (fd.ShowDialog() == DialogResult.OK)
