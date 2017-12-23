@@ -12,6 +12,7 @@ namespace OpenStreamDeck.Functions
 {
     class FolderNavigate : KeyFunction
     {
+        [JsonProperty("PageReference")]
         public int PageReference;
 
         [JsonConstructor]
@@ -44,31 +45,6 @@ namespace OpenStreamDeck.Functions
         public override void ShowForm()
         {
             MessageBox.Show("No settings to change for this function");
-            //Form userInput = new Form();
-            //userInput.Height = 200;
-            //userInput.Width = 300;
-            //userInput.FormBorderStyle = FormBorderStyle.FixedDialog;
-            //userInput.Text = "";
-            //TextBox pageReferenceBox = new TextBox()
-            //{
-            //    Location = new System.Drawing.Point(75, 50),
-            //    Width = 125
-            //};
-            //userInput.Controls.Add(pageReferenceBox);
-            //Button submitButton = new Button()
-            //{
-            //    Location = new System.Drawing.Point(100, 75),
-            //    Text = "Submit"
-            //};
-            //submitButton.Click += submitButtonClicked;
-            //userInput.Controls.Add(submitButton);
-
-            //userInput.Show();
-        }
-
-        private void submitButtonClicked(object sender, EventArgs e)
-        {
-
         }
     }
 }

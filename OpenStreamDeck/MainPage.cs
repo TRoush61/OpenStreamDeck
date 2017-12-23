@@ -45,7 +45,7 @@ namespace OpenStreamDeck
             functionNames = new List<string>();
             foreach (var functionType in functionTypes)
             {
-                var function = (KeyFunction)Activator.CreateInstance(functionType, deckHandler);
+                var function = (KeyFunction)Activator.CreateInstance(functionType);
                 functionNames.Add(function.getFunctionName());
             }
 
@@ -98,7 +98,7 @@ namespace OpenStreamDeck
             if (currentPage != deckHandler.CurrentPage)
             {
                 currentPage = deckHandler.CurrentPage;
-                populateFields();
+                renderPage();
             }
         }
 
@@ -112,6 +112,27 @@ namespace OpenStreamDeck
             titlePosComboBox.Items.Add("Rendered Top");
             titlePosComboBox.Items.Add("Rendered Center");
             titlePosComboBox.Items.Add("Rendered Bottom");
+
+            //Set picturebox settings
+            var i = 0;
+            foreach (var pictureBox in keyPictureBoxes)
+            {
+                pictureBox.Image = deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[i].getImageForForm();
+                pictureBox.Click += pictureBoxClicked;
+                pictureBox.DoubleClick += pictureBox_DoubleClick;
+                i++;
+            }
+        }
+
+        private void renderPage()
+        {
+            //Populate fields
+            keyPressedComboBox.SelectedIndex = functionNames.IndexOf(deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].KeyPressedFunction.getFunctionName());
+            keyHeldComboBox.SelectedIndex = functionNames.IndexOf(deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].KeyHeldFunction.getFunctionName());
+            titleTextBox.Text = deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].Label;
+            titleTextBox.ReadOnly = false;
+            titlePosComboBox.SelectedIndex = (int)deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].LabelPos;
+            iconPreview.Image = deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].getImageForForm();
 
             //Set picturebox settings
             var i = 0;
@@ -161,7 +182,7 @@ namespace OpenStreamDeck
             {
                 this.WindowState = FormWindowState.Normal;
             }
-            this.Activate();
+            this.Show();
         }
 
         private void MainPage_FormClosing(object sender, FormClosingEventArgs e)
@@ -256,7 +277,7 @@ namespace OpenStreamDeck
             }
             OpenFileDialog fd = new OpenFileDialog();
             fd.Filter = "Image Files(*.BMP;*.JPG;*.PNG)|*.BMP;*.JPG;*.PNG|All files (*.*)|*.*";
-            fd.InitialDirectory = String.Format(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OpenStreamDeck/images/");
+            fd.InitialDirectory = String.Format(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\OpenStreamDeck\\images\\");
             fd.Multiselect = false;
             fd.ValidateNames = true;
             if (fd.ShowDialog() == DialogResult.OK)
@@ -326,6 +347,7 @@ namespace OpenStreamDeck
         {
             if (selectedIndex != -1)
             {
+                changes = true;
                 deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].KeyPressedFunction
                     = (KeyFunction)Activator.CreateInstance(functionTypes[keyPressedComboBox.SelectedIndex], deckHandler);
             }
@@ -335,6 +357,7 @@ namespace OpenStreamDeck
         {
             if (selectedIndex != -1)
             {
+                changes = true;
                 deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].KeyHeldFunction
                 = (KeyFunction)Activator.CreateInstance(functionTypes[keyHeldComboBox.SelectedIndex], deckHandler);
             }
@@ -345,6 +368,7 @@ namespace OpenStreamDeck
             if (selectedIndex != -1)
             {
                 deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].KeyPressedFunction.ShowForm();
+                changes = true;
             }
             else
             {
@@ -357,6 +381,7 @@ namespace OpenStreamDeck
             if (selectedIndex != -1)
             {
                 deckHandler.CurrentProfile.Pages[deckHandler.CurrentPage].Keys[selectedIndex].KeyHeldFunction.ShowForm();
+                changes = true;
             }
             else
             {
