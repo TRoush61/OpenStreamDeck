@@ -4,16 +4,25 @@ using System.Drawing.Imaging;
 
 namespace OpenStreamDeck.Classes
 {
+    /// <summary>
+    /// Represents a gif that can be used as key images.
+    /// </summary>
     class OpenStreamDeckGif
     {
-        // Going to get a GIF as a source file and provide an array of bitmaps.
+
+        /// <summary>
+        /// Creates a StreamDeck-compatible Bitmap array from a Gif file.
+        /// </summary>
+        /// <param name="gif">Red channel</param>
+        /// <returns></returns>
         public void BitmapsFromGif(Image gif)
         {
-            Console.WriteLine("GIF Received.");
+            Console.WriteLine("GIF Received (as Image).");
             // Retrieve gif frames as Image Array.
             Image[] frames = GifToFrames(gif);
-            
+
             // Convert Image Array to Bitmap Array.
+
         }
 
         private Image[] GifToFrames(Image animatedGif)
@@ -29,7 +38,28 @@ namespace OpenStreamDeck.Classes
             }
             // Returns the found frames.
             return gifFrames;
-            
+
         }
+
+        // Options for exporting image to:
+        // FromRawBitmap(byte[] bitmapData)
+        // FromStream(Stream bitmapStream)
+        // FromFile(string bitmapFile)
+        // (internal) FromDrawingBitmap(Bitmap bitmap)
+
+        /// <summary>
+        /// Converts an Image to a StreamDeck bitmap.
+        /// </summary>
+        /// <param name="imageOriginal">Received Image</param>
+        /// <returns></returns>
+        private byte ImageToBytes(Image frameImage)
+        {
+            // Store image and export as a bitmap.
+
+            byte frameBytes = 0;
+            // Returns the image as a bitmap in bytes.
+            return frameBytes;
+        }
+
     }
 }
