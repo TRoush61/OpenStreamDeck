@@ -50,8 +50,6 @@ namespace OpenStreamDeck.ProfileObjects
             LabelPos = LabelPosition.Positon_Not_Rendered;
             ImageColor = Color.Black;
             ImageType = ImageSaveType.Image_Color;
-            KeyPressedFunction = new NoFunction();
-            KeyHeldFunction = new NoFunction();
         }
 
         public Image getImageForForm()

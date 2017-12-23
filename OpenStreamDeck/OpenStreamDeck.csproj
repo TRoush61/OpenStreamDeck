@@ -78,7 +78,12 @@
     <Compile Include="Classes\Functions\GoHome.cs" />
     <Compile Include="Classes\Functions\KeyFunction.cs" />
     <Compile Include="Classes\Functions\NoFunction.cs" />
+<<<<<<< HEAD
     <Compile Include="Classes\Gif.cs" />
+=======
+    <Compile Include="Classes\Functions\OpenProgram.cs" />
+    <Compile Include="Classes\Functions\OpenWebLink.cs" />
+>>>>>>> master
     <Compile Include="Classes\Key.cs" />
     <Compile Include="Classes\Page.cs" />
     <Compile Include="Classes\Profile.cs" />

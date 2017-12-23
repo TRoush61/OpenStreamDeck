@@ -22,6 +22,11 @@ namespace OpenStreamDeck.ProfileObjects
         public bool nameChanged;
 
         [JsonConstructor]
+        public Profile()
+        {
+
+        }
+
         public Profile(string profileName)
         {
             var pages = new List<Page>();
