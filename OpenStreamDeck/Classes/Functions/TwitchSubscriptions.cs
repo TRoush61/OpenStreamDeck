@@ -10,6 +10,7 @@ using OpenStreamDeck.Functions;
 using TwitchLib;
 using TwitchLib.Models.API.v5.Streams;
 using OpenStreamDeck.ProfileObjects;
+using OpenStreamDeck.Secrets;
 using System.Security.Policy;
 using System.Net;
 using System.IO;
@@ -121,7 +122,7 @@ namespace OpenStreamDeck.Functions
 
         private async void updateLiveChannels(Object sender, EventArgs e)
         {
-            TwitchAPI api = new TwitchAPI("clientID", "accessToken");
+            TwitchAPI api = new TwitchAPI(Twitch.clientID, Twitch.authToken);
             liveChannels = await api.Streams.v5.GetFollowedStreamsAsync(streamType: "live", limit: 14);
         }
 
