@@ -37,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,6 +50,10 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>image.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -87,6 +92,7 @@
     <Compile Include="Classes\Functions\GoHome.cs" />
     <Compile Include="Classes\Functions\KeyFunction.cs" />
     <Compile Include="Classes\Functions\NoFunction.cs" />
+    <Compile Include="Classes\Gif.cs" />
     <Compile Include="Classes\Functions\OpenProgram.cs" />
     <Compile Include="Classes\Functions\OpenWebLink.cs" />
     <Compile Include="Classes\Functions\TwitchSubscriptions.cs" />
@@ -133,6 +139,9 @@
   <ItemGroup>
     <Content Include="image.ico" />
     <Content Include="Resources\appicon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\default.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\youtube.png" />

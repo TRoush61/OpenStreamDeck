@@ -11,6 +11,7 @@ using OpenStreamDeck.ProfileObjects;
 using OpenStreamDeck.ConfigManagement;
 using OpenStreamDeck.Functions;
 using System.IO;
+using System.Diagnostics;
 
 namespace OpenStreamDeck.Handler
 {
@@ -51,6 +52,7 @@ namespace OpenStreamDeck.Handler
             catch (Exception e)
             {
                 //MessageBox.Show(String.Format("Cannot connect to StreamDeck ({0})", e.Message));
+                Debug.WriteLine("Cannot connect to StreamDeck {0}", e.Message);
                 return;
             }
             Application.ApplicationExit += onApplicationExit;
