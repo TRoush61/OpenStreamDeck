@@ -26,6 +26,11 @@ namespace OpenStreamDeck.Functions
             WebUrl = "";
         }
 
+        public OpenWebLink(string url)
+        {
+            WebUrl = url;
+        }
+
         public override string getFunctionName()
         {
             return "Open Web Link";
