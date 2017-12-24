@@ -30,7 +30,7 @@ namespace OpenStreamDeck.Functions
 
         public override void Run(DeckHandler dh)
         {
-            dh.CurrentPage = 0;
+            dh.CurrentPage = dh.CurrentProfile.MainPage;
             dh.renderPage();
         }
 

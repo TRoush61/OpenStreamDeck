@@ -7,13 +7,12 @@ using System.Windows.Forms;
 using Newtonsoft.Json;
 using OpenStreamDeck.Functions;
 using OpenStreamDeck.Handler;
+using OpenStreamDeck.ProfileObjects;
 
 namespace OpenStreamDeck.Functions
 {
     class GoBack : KeyFunction
     {
-        public int PageReference;
-
         [JsonConstructor]
         public GoBack()
         {
@@ -23,7 +22,7 @@ namespace OpenStreamDeck.Functions
         public GoBack(DeckHandler dh) : base(dh)
         {
             base.isNavigationKey = true;
-            PageReference = dh.CurrentPage;
+
         }
 
         public override string getFunctionName()
@@ -33,8 +32,15 @@ namespace OpenStreamDeck.Functions
 
         public override void Run(DeckHandler dh)
         {
-            dh.CurrentPage = PageReference;
-            dh.renderPage();
+            if (dh.PageStack.Count > 0)
+            {
+                dh.CurrentPage = dh.PageStack.Pop();
+                dh.renderPage();
+            }
+            else
+            {
+                MessageBox.Show("No page to go back to");
+            }
         }
 
         public override void ShowForm()

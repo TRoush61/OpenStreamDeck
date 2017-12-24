@@ -16,7 +16,8 @@ namespace OpenStreamDeck.Handler
     public class DeckHandler
     {
         public IStreamDeck Deck;
-        public int CurrentPage;
+        public Stack<Page> PageStack;
+        public Page CurrentPage;
         public Profile CurrentProfile;
         public double KeyHeldInterval = 500.0;
         public byte DeckBrightness = 100;
@@ -60,7 +61,8 @@ namespace OpenStreamDeck.Handler
             KeyPressedTimer.Interval = 10;
             KeyPressedTimer.Elapsed += onKeyHeld;
 
-            CurrentPage = 0;
+            CurrentPage = CurrentProfile.MainPage;
+            PageStack = new Stack<Page>();
             renderPage();
         }
 
@@ -69,7 +71,7 @@ namespace OpenStreamDeck.Handler
             var d = sender as IStreamDeck;
             if (d == null) return;
             LastKeyPressed = e;
-            var keyPressed = CurrentProfile.Pages[CurrentPage].Keys[e.Key];
+            var keyPressed = CurrentPage.Keys[e.Key];
 
             //On key down
             if (e.IsDown)
@@ -94,7 +96,7 @@ namespace OpenStreamDeck.Handler
             if (KeyHeldFor >= KeyHeldInterval)
             {
                 KeyPressedTimer.Stop();
-                var keyPressed = CurrentProfile.Pages[CurrentPage].Keys[LastKeyPressed.Key];
+                var keyPressed = CurrentPage.Keys[LastKeyPressed.Key];
                 keyPressed.KeyHeldFunction.Run(this);
             }
         }
@@ -104,8 +106,8 @@ namespace OpenStreamDeck.Handler
             if (Deck != null)
             {
                 var i = 0;
-                CurrentProfile.Pages[CurrentPage].Keys.TrimExcess();
-                foreach (var key in CurrentProfile.Pages[CurrentPage].Keys)
+                CurrentPage.Keys.TrimExcess();
+                foreach (var key in CurrentPage.Keys)
                 {
                     Deck.SetKeyBitmap(i, key.getImage());
                     ++i;

@@ -5,7 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using StreamDeckSharp;
 
-namespace OpenStreamDeck.Classes
+namespace OpenStreamDeck.Gifs
 {
     /// <summary>
     /// Represents a gif that can be used as key images.
@@ -46,12 +46,12 @@ namespace OpenStreamDeck.Classes
             // Returns the found frames.
             return gifFrames;
         }
+
         /// <summary>
         /// Converts an Image to a StreamDeck bitmap.
         /// </summary>
         /// <param name="frameImage">Received Image</param>
         /// <returns></returns>
-        
         static private byte[] ImageToBytes(Image frameImage)
         {
             // Initialize some variables.
