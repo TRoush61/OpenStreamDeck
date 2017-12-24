@@ -12,30 +12,6 @@ namespace OpenStreamDeck.Classes
     /// </summary>
     class OpenStreamDeckGif
     {
-        /// <summary> 
-        /// Used to test the methods below.
-        /// </summary>
-        /// 
-        //HACK: Using a Main method to test because Pure doesn't know how to do.
-        //static void Main()
-        //{
-        //    try
-        //    {
-        //        Image testGif = Image.FromFile("Resources\\default.gif");
-        //        List<byte[]> gifFrames = BitmapsFromGif(testGif);
-        //        int SDSLength = 15552;
-        //        Console.WriteLine("Expected Size: {0}", SDSLength);
-        //        Console.WriteLine("Received Size: {0}", gifFrames[0].Length);
-        //        // Run a frame through the StreamDeckSharp and see if errors.
-        //        StreamDeckKeyBitmap.FromRawBitmap(gifFrames[0]);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        // Handle the exception.
-        //        Console.WriteLine("Caught an error in Main: {0}", e);
-        //    }
-        //}
-
         /// <summary>
         /// Creates a StreamDeck-compatible Byte array of bitmaps in List form from a Gif file.
         /// </summary>
@@ -76,21 +52,6 @@ namespace OpenStreamDeck.Classes
         /// <param name="frameImage">Received Image</param>
         /// <returns></returns>
         
-        //static private byte[] ImageToBytes(Image frameImage)
-        //{
-        //    // Initialize some variables.
-        //    byte[] frameBytes = { 0x20 };
-        //    Bitmap frameBitmap = (Bitmap)frameImage;
-        //    ImageFormat format = ImageFormat.Bmp;
-        //    // Convert the image to a bitmap and bytes.
-        //    using (MemoryStream ms = new MemoryStream())
-        //    {
-        //        frameImage.Save(ms, format);
-        //        frameBytes = ms.ToArray();
-        //    }
-        //    // Returns the image as a bitmap in bytes.
-        //    return frameBytes;
-        //}
         static private byte[] ImageToBytes(Image frameImage)
         {
             // Initialize some variables.
@@ -109,9 +70,6 @@ namespace OpenStreamDeck.Classes
                 {
                     byte* bdata = (byte*)data.Scan0;
 
-                    //TODO: This should be cleaned up
-                    //I'm locking for a different approach to parse different PixelFormats without
-                    //copying 90% of the code ;-)
                     if (data.PixelFormat == PixelFormat.Format24bppRgb)
                     {
                         for (int y = 0; y < 72; y++)
@@ -157,9 +115,3 @@ namespace OpenStreamDeck.Classes
         }
     }
 }
-
-// Options for exporting image to:
-// FromRawBitmap(byte[] bitmapData)
-// FromStream(Stream bitmapStream)
-// FromFile(string bitmapFile)
-// (internal) FromDrawingBitmap(Bitmap bitmap)
