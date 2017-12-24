@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StreamDeckSharp;
-using System.Threading;
-using System.Drawing;
 using System.Windows.Forms;
 using OpenStreamDeck.ProfileObjects;
 using OpenStreamDeck.ConfigManagement;
