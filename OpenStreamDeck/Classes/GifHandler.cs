@@ -2,34 +2,50 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
-using StreamDeckSharp;
+using System.Windows.Forms;
 
-namespace OpenStreamDeck.Gifs
+namespace OpenStreamDeck.Handler
 {
     /// <summary>
-    /// Represents a gif that can be used as key images.
+    /// Stores a gif and handles conversion to StreamDeck.
     /// </summary>
-    class OpenStreamDeckGif
+    class GifHandler
     {
+        // Values come from StreamDeckSharp, replicated here for selfsufficiency.
+        public int ArraySize = 15552;
+        public int ImageSize = 72;
+        
+        public Image SourceGif;
+        public Image[] SourceFrames;
+        public List<byte[]> BitmapList;
+        public int Duration;
+        public int CurrentFrame = 0;
+        public DeckHandler myDeck;
+        public int gifKey;
+
         /// <summary>
-        /// Creates a StreamDeck-compatible Byte array of bitmaps in List form from a Gif file.
+        /// Selects a GIF for the handler to use. 
         /// </summary>
-        /// <param name="gif">A 72 x 72 gif. Use wiggle.gif as placeholder.</param>
-        /// <returns></returns>
-        static public List<byte[]> BitmapsFromGif(Image gif)
+        /// <param name="gif"></param>
+        //TODO: Change this to be a proper constructor.
+        public void Select(Image gif)
         {
-            Console.WriteLine("GIF Received (as Image).");
-            // Retrieve gif frames as Image Array, and initialize the variables.
-            Image[] frames = GifToFrames(gif);
-            byte[] emptyBytes = { 0x20, 0x20 };
-            List<byte[]> bitmaps = new List<byte[]>();
-            // Convert Image Array to Bitmap Array.
-            for (int i = 0; i < frames.Length; i++)
+            SourceGif = gif;
+            Process(SourceGif);
+        }
+        /// <summary>
+        /// Processes Gif and stores to class variables.
+        /// </summary>
+        /// <param name="listReturn">Set to True for a return. False only stores to class.</param>
+        public void Process(Image gif)
+        {
+            // Get frames of the animated gif and store.
+            SourceFrames = GifToFrames(gif);
+            for (int i = 0; i < SourceFrames.Length; i++)
             {
-                bitmaps.Add( ImageToBytes(frames[i]) );
+                BitmapList.Add(ImageToBytes(SourceFrames[i]));
             }
-            return bitmaps;
+            Duration = GetDuration(gif);
         }
 
         static private Image[] GifToFrames(Image animatedGif)
@@ -112,6 +128,40 @@ namespace OpenStreamDeck.Gifs
                 if (data != null)
                     bitmap.UnlockBits(data);
             }
+        }
+
+        private int GetDuration(Image gif)
+        {
+            PropertyItem gifItem = gif.GetPropertyItem(0x5100);
+            // Property is in 1/100th of a second.
+            int delay = (gifItem.Value[0] + gifItem.Value[1] * 256) * 10;
+            return delay;
+        }
+
+        //HACK: Used Tyler's code, may need change/improve.
+        public void sendToDeck(DeckHandler deck, int Key)
+        {
+            //TODO: Manage streamdeck not being connected and manage searching for the connection periodically when one isn't detected
+            if (myDeck.Deck == null)
+            {
+
+            }
+            myDeck = deck;
+            gifKey = Key;
+            Timer timer = new Timer();
+            timer.Interval = 20;
+            timer.Tick += SetGifFrame;
+            timer.Start();
+        }
+        //HACK: Used Tyler's code, may need change/improve.
+        public void SetGifFrame(object sender, EventArgs e)
+        {
+            if (CurrentFrame >= SourceFrames.Length)
+            {
+                CurrentFrame = 0;
+            }
+            myDeck.Deck.SetKeyBitmap(gifKey, BitmapList[CurrentFrame]);
+            CurrentFrame++;
         }
     }
 }
