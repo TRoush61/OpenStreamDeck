@@ -52,8 +52,7 @@
     <ApplicationIcon>image.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject>OpenStreamDeck.Classes.SteamAccess</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -92,7 +91,7 @@
     <Compile Include="Classes\Functions\GoHome.cs" />
     <Compile Include="Classes\Functions\KeyFunction.cs" />
     <Compile Include="Classes\Functions\NoFunction.cs" />
-    <Compile Include="Classes\Gif.cs" />
+    <Compile Include="Classes\GifHandler.cs" />
     <Compile Include="Classes\Functions\OpenProgram.cs" />
     <Compile Include="Classes\Functions\OpenWebLink.cs" />
     <Compile Include="Classes\Functions\TwitchSubscriptions.cs" />
@@ -100,6 +99,7 @@
     <Compile Include="Classes\Page.cs" />
     <Compile Include="Classes\Profile.cs" />
     <Compile Include="Classes\ProfileManager.cs" />
+    <Compile Include="Classes\SteamHandler.cs" />
     <Compile Include="Classes\TSPlugin.cs" />
     <Compile Include="MainPage.cs">
       <SubType>Form</SubType>
